@@ -11,29 +11,37 @@ module "network" {
   availability_zones        = var.availability_zones
 }
 
-/*
 module "security" {
   source = "./modules/security"
 
-  vpc_id = module.network.vpc_id
+  project_name = var.project_name
+  environment  = var.environment
+  vpc_id       = module.network.vpc_id
 }
 
-module "registry" {
-  source = "./modules/registry"
-}
+/*
+    module "security" {
+    source = "./modules/security"
 
-module "compute" {
-  source = "./modules/compute"
-}
+    vpc_id = module.network.vpc_id
+    }
 
-module "load_balancing" {
-  source = "./modules/load_balancing"
-}
+    module "registry" {
+    source = "./modules/registry"
+    }
 
-module "secrets" {
-  source = "./modules/secrets"
-}
+    module "compute" {
+    source = "./modules/compute"
+    }
 
-module "storage" {
-  source = "./modules/storage"
+    module "load_balancing" {
+    source = "./modules/load_balancing"
+    }
+
+    module "secrets" {
+    source = "./modules/secrets"
+    }
+
+    module "storage" {
+    source = "./modules/storage"
 }*/
