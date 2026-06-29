@@ -78,10 +78,30 @@ module "load_balancing" {
 }
 
 /*
+module "compute" {
+  source = "./modules/compute"
 
-    module "compute" {
-    source = "./modules/compute"
-    }
+  project_name = var.project_name
+  environment  = var.environment
+  aws_region   = var.aws_region
 
+  private_app_subnet_ids  = module.network.private_app_subnet_ids
+  private_data_subnet_ids = module.network.private_data_subnet_ids
 
+  front_sg_id = module.security.front_sg_id
+  back_sg_id  = module.security.back_sg_id
+  mysql_sg_id = module.security.mysql_sg_id
+
+  front_instance_profile_name = module.iam.front_instance_profile_name
+  back_instance_profile_name  = module.iam.back_instance_profile_name
+  mysql_instance_profile_name = module.iam.mysql_instance_profile_name
+
+  front_repository_url = module.registry.front_repository_url
+  back_repository_url  = module.registry.back_repository_url
+
+  front_target_group_arn = module.load_balancing.front_target_group_arn
+  back_target_group_arn  = module.load_balancing.back_target_group_arn
+
+  mysql_backups_bucket_name = module.storage.mysql_backups_bucket_name
+}
 */
