@@ -67,19 +67,21 @@ module "iam" {
   github_repositories = var.github_repositories
 }
 
-/*
-    module "security" {
-    source = "./modules/security"
+module "load_balancing" {
+  source = "./modules/load_balancing"
 
-    vpc_id = module.network.vpc_id
-    }
+  project_name      = var.project_name
+  environment       = var.environment
+  vpc_id            = module.network.vpc_id
+  public_subnet_ids = module.network.public_subnet_ids
+  alb_sg_id         = module.security.alb_sg_id
+}
+
+/*
 
     module "compute" {
     source = "./modules/compute"
     }
 
-    module "load_balancing" {
-    source = "./modules/load_balancing"
-    }
 
 */
