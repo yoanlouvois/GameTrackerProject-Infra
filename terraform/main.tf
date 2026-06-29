@@ -26,6 +26,13 @@ module "registry" {
   environment  = var.environment
 }
 
+module "storage" {
+  source = "./modules/storage"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
+
 /*
     module "security" {
     source = "./modules/security"
@@ -44,7 +51,4 @@ module "registry" {
     module "secrets" {
     source = "./modules/secrets"
     }
-
-    module "storage" {
-    source = "./modules/storage"
-}*/
+*/
