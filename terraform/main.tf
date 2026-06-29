@@ -33,6 +33,23 @@ module "storage" {
   environment  = var.environment
 }
 
+module "secrets" {
+  source = "./modules/secrets"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  spring_datasource_url      = var.spring_datasource_url
+  spring_datasource_username = var.spring_datasource_username
+  cloudinary_cloud_name      = var.cloudinary_cloud_name
+  cloudinary_api_key         = var.cloudinary_api_key
+
+  spring_datasource_password = var.spring_datasource_password
+  mysql_root_password        = var.mysql_root_password
+  cloudinary_api_secret      = var.cloudinary_api_secret
+  jwt_secret                 = var.jwt_secret
+}
+
 /*
     module "security" {
     source = "./modules/security"
@@ -48,7 +65,4 @@ module "storage" {
     source = "./modules/load_balancing"
     }
 
-    module "secrets" {
-    source = "./modules/secrets"
-    }
 */
