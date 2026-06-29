@@ -34,3 +34,8 @@ spring_datasource_password = "xxx"
 mysql_root_password        = "xxx"
 cloudinary_api_secret      = "xxx"
 jwt_secret                 = "xxx"
+
+github_repositories = [
+  "yoanlouvois/GameTrackerProject-Backend",
+  "yoanlouvois/GameTrackerProject-Frontend"
+]

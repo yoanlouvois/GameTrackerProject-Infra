@@ -50,6 +50,23 @@ module "secrets" {
   jwt_secret                 = var.jwt_secret
 }
 
+module "iam" {
+  source = "./modules/iam"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  front_repository_arn = module.registry.front_repository_arn
+  back_repository_arn  = module.registry.back_repository_arn
+
+  backend_secret_arn = module.secrets.backend_secret_arn
+  mysql_secret_arn   = module.secrets.mysql_secret_arn
+
+  mysql_backups_bucket_arn = module.storage.mysql_backups_bucket_arn
+
+  github_repositories = var.github_repositories
+}
+
 /*
     module "security" {
     source = "./modules/security"

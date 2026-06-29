@@ -73,3 +73,7 @@ variable "jwt_secret" {
   type      = string
   sensitive = true
 }
+
+variable "github_repositories" {
+  type = list(string)
+}
