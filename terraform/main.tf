@@ -19,15 +19,18 @@ module "security" {
   vpc_id       = module.network.vpc_id
 }
 
+module "registry" {
+  source = "./modules/registry"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
+
 /*
     module "security" {
     source = "./modules/security"
 
     vpc_id = module.network.vpc_id
-    }
-
-    module "registry" {
-    source = "./modules/registry"
     }
 
     module "compute" {
