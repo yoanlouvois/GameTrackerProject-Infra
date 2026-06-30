@@ -12,10 +12,6 @@ data "aws_ami" "amazon_linux_2023" {
 # EC2 MySQL
 ####################################
 
-spring_datasource_username = var.spring_datasource_username
-spring_datasource_password = var.spring_datasource_password
-mysql_root_password        = var.mysql_root_password
-
 resource "aws_instance" "mysql" {
   ami                         = data.aws_ami.amazon_linux_2023.id
   instance_type               = var.instance_type_mysql
@@ -35,14 +31,6 @@ systemctl start docker
 systemctl enable crond
 systemctl start crond
 
-MYSQL_SECRET=$(aws secretsmanager get-secret-value \
-  --region ${var.aws_region} \
-  --secret-id ${var.project_name}/${var.environment}/mysql \
-  --query SecretString \
-  --output text)
-
-MYSQL_ROOT_PASSWORD=$(echo $MYSQL_SECRET | python3 -c "import sys,json; print(json.load(sys.stdin)['MYSQL_ROOT_PASSWORD'])")
-
 mkdir -p /data/mysql
 
 docker run -d \
@@ -59,7 +47,7 @@ docker run -d \
 cat > /usr/local/bin/backup_mysql.sh <<'SCRIPT'
 #!/bin/bash
 DATE=$(date +%Y-%m-%d-%H-%M)
-docker exec gametracker-mysql mysqldump -uroot -p$MYSQL_ROOT_PASSWORD db_pgt > /tmp/db_pgt-$DATE.sql
+docker exec gametracker-mysql mysqldump -uroot -p${var.mysql_root_password} db_pgt > /tmp/db_pgt-$DATE.sql
 aws s3 cp /tmp/db_pgt-$DATE.sql s3://${var.mysql_backups_bucket_name}/mysql/db_pgt-$DATE.sql
 rm -f /tmp/db_pgt-$DATE.sql
 SCRIPT

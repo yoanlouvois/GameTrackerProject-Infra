@@ -102,4 +102,8 @@ module "compute" {
   back_target_group_arn  = module.load_balancing.back_target_group_arn
 
   mysql_backups_bucket_name = module.storage.mysql_backups_bucket_name
+
+  spring_datasource_username = var.spring_datasource_username
+  spring_datasource_password = var.spring_datasource_password
+  mysql_root_password        = var.mysql_root_password
 }
