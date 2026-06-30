@@ -84,16 +84,30 @@ resource "aws_launch_template" "front" {
 
   vpc_security_group_ids = [var.front_sg_id]
 
+    block_device_mappings {
+      device_name = "/dev/xvda"
+
+      ebs {
+        volume_size           = 20
+        volume_type           = "gp3"
+        delete_on_termination = true
+      }
+    }
+
   user_data = base64encode(<<-EOF
 #!/bin/bash
 set -e
 
 dnf update -y
-dnf install -y docker awscli
+dnf install -y docker awscli amazon-ssm-agent
+
+systemctl enable amazon-ssm-agent
+systemctl start amazon-ssm-agent
+
 systemctl enable docker
 systemctl start docker
 
-aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${var.front_repository_url}
+aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin 147914447581.dkr.ecr.eu-west-3.amazonaws.com
 
 docker pull ${var.front_repository_url}:latest
 
@@ -149,16 +163,30 @@ resource "aws_launch_template" "back" {
 
   vpc_security_group_ids = [var.back_sg_id]
 
+  block_device_mappings {
+    device_name = "/dev/xvda"
+
+    ebs {
+      volume_size           = 30
+      volume_type           = "gp3"
+      delete_on_termination = true
+    }
+  }
+
   user_data = base64encode(<<-EOF
 #!/bin/bash
 set -e
 
 dnf update -y
-dnf install -y docker awscli
+dnf install -y docker awscli amazon-ssm-agent
+
+systemctl enable amazon-ssm-agent
+systemctl start amazon-ssm-agent
+
 systemctl enable docker
 systemctl start docker
 
-aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${var.back_repository_url}
+aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin 147914447581.dkr.ecr.eu-west-3.amazonaws.com
 
 BACKEND_SECRET=$(aws secretsmanager get-secret-value \
   --region ${var.aws_region} \

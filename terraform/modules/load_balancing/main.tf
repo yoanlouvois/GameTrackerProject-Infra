@@ -43,7 +43,7 @@ resource "aws_lb_target_group" "back" {
   vpc_id   = var.vpc_id
 
   health_check {
-    path                = "/actuator/health"
+    path                = "/gametracker/v1/game/all"
     protocol            = "HTTP"
     matcher             = "200-399"
     interval            = 30

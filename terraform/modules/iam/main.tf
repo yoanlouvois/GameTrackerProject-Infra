@@ -24,6 +24,21 @@ resource "aws_iam_role" "front_ec2" {
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
 }
 
+resource "aws_iam_role_policy_attachment" "back_ssm" {
+  role       = aws_iam_role.back_ec2.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "front_ssm" {
+  role       = aws_iam_role.front_ec2.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "mysql_ssm" {
+  role       = aws_iam_role.mysql_ec2.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 data "aws_iam_policy_document" "front_ec2_policy" {
   statement {
     actions = [
