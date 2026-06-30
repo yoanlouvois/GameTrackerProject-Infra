@@ -77,7 +77,6 @@ module "load_balancing" {
   alb_sg_id         = module.security.alb_sg_id
 }
 
-/*
 module "compute" {
   source = "./modules/compute"
 
@@ -104,4 +103,3 @@ module "compute" {
 
   mysql_backups_bucket_name = module.storage.mysql_backups_bucket_name
 }
-*/
