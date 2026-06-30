@@ -35,3 +35,17 @@ variable "mysql_ebs_size" {
   type    = number
   default = 20
 }
+
+variable "spring_datasource_username" {
+  type = string
+}
+
+variable "spring_datasource_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "mysql_root_password" {
+  type      = string
+  sensitive = true
+}
